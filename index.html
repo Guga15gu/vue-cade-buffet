@@ -13,21 +13,27 @@
             Nenhum Buffet encontrado!
         </div>
 
-        <ul>
-            <li v-for="buffet in buffets">
-                <div class="card">
-                    <address>
-                        Nome: {{ buffet.business_name }}
-                        <br>
-                        ID : {{ buffet.id }}
-                    </address>
-                    <button class="button-show-buffet" v-on:click="showBuffet(buffet.id)">Mostrar detalhes</button>
-                </div>
-            </li>   
-        </ul>
-
-        <div class="buffet" v-if="visibleBuffet">
-            <p>Detalhes do buffet id {{ buffet.id }}:</p>
+        <div class="list">
+            <ul>
+                <li v-for="buffet in buffets">
+                    <div class="card">
+                        <address>
+                            Nome: {{ buffet.business_name }}
+                            <br>
+                            ID : {{ buffet.id }}
+                        </address>
+                        <button class="button-show" v-on:click="showBuffet(buffet.id)">Mostrar detalhes do buffet</button>
+                    </div>
+                </li>   
+            </ul>
+        </div>
+        
+        <div class="item" v-if="buffet.visible">
+            <div>
+                <button class="button-show-buffet" v-on:click="closeBuffet()">Fechar detalhes do buffet</button>
+            </div>
+            
+            <p>{{ buffet.business_name }}:</p>
             <address>
                 Nome: {{ buffet.business_name }}
                 <br>
@@ -46,6 +52,58 @@
                 CEP : {{ buffet.postal_code }}
                 <br>
                 Descrição : {{ buffet.description }}
+            </address>
+
+            <button class="button-show-buffet" v-on:click="getBuffetTypes(buffet.id)">Mostrar tipos de buffet</button>
+        </div>
+
+        <div class="list" v-if="buffet_types.length > 0">
+            <div>
+                <button class="button-close" v-on:click="closeBuffetTypes()">Fechar tipos de buffet</button>
+            </div>
+            
+            <p>Tipos de {{ buffet.business_name}}</p>
+            <ul>
+                <li v-for="buffet_type in buffet_types">
+                    <div class="card">
+                        <address>
+                            Nome: {{ buffet_type.name }}
+                            <br>
+                            ID : {{ buffet_type.id }}
+                        </address>
+
+                        <button class="button-show-buffet-type" v-on:click="showBuffetType(buffet_type.id)">Mostrar detalhes do tipo de buffet</button>
+                    </div>
+                </li>   
+            </ul>
+        </div>
+
+        <div class="item" v-if="buffet_type.visible">
+            <div>
+                <button class="button-close" v-on:click="closeBuffetType()">Fechar detalhes do tipo de buffet</button>
+            </div>
+            
+            <p>Detalhes do tipo de buffet:</p>
+            <address>
+                Nome: {{ buffet_type.name }}
+                <br>
+                ID: {{ buffet_type.id }}
+                <br>
+                Descrição: {{ buffet_type.description }}
+                <br>
+                Quantidade máxima de pessoas: {{ buffet_type.max_capacity_people }}
+                <br>
+                Quantidade mínima de pessoas: {{ buffet_type.min_capacity_people }}
+                <br>
+                Duração: {{ buffet_type.duration }} minutos
+                <br>
+                Bebidas alcoolicas: {{ buffet_type.alcoholic_beverages ? 'Sim' : 'Não' }}
+                <br>
+                Decoração: {{ buffet_type.decoration ? 'Sim' : 'Não' }}
+                <br>
+                Serviço de estacionamento: {{ buffet_type.parking_valet ? 'Sim' : 'Não' }}
+                <br>
+                Endereço exclusivo: {{ buffet_type.exclusive_address ? 'Sim' : 'Não' }}
             </address>
         </div>
     </div>

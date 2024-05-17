@@ -2,6 +2,7 @@ const app = Vue.createApp({
     data() {
       return {
         searchText: '',
+
         buffets: [],
         buffet: {
             id: '',
@@ -13,9 +14,24 @@ const app = Vue.createApp({
             city: '',
             postal_code: '',
             description: '',
-            payment_methods: ''
+            payment_methods: '',
+            visible: false
         },
-        visibleBuffet: false
+
+        buffet_types: [],
+        buffet_type: {
+            id: '',
+            name: '',
+            description: '',
+            max_capacity_people: '',
+            min_capacity_people: '',
+            duration: '',
+            alcoholic_beverages: '',
+            decoration: '',
+            parking_valet: '',
+            exclusive_address: '',
+            visible: false
+        },
       };
     },
 
@@ -24,10 +40,28 @@ const app = Vue.createApp({
     },
 
     methods:{
+        closeBuffet(){
+            this.buffet.visible = false;
+            this.closeBuffetTypes();
+        },
 
-        async showBuffet(id){
-            this.visibleBuffet = !this.visibleBuffet;
-            await this.getBuffet(id);
+        closeBuffetTypes(){
+            this.buffet_types = [];
+            this.closeBuffetType();
+        },
+
+        closeBuffetType(){
+            this.buffet_type.visible = false;
+        },
+
+        async showBuffet(buffet_id){
+            await this.getBuffet(buffet_id);
+            this.buffet.visible = true;
+        },
+
+        async showBuffetType(buffet_type_id){
+            await this.getBuffetType(buffet_type_id);
+            this.buffet_type.visible = true;
         },
 
         async getBuffets(){
@@ -44,11 +78,34 @@ const app = Vue.createApp({
 
                 this.buffets.push(buffet);
             });
-
         },
 
-        async getBuffet(id){
-            let response = await fetch(`http://localhost:3000/api/v1/buffets/${id}`);
+        async getBuffetTypes(buffet_id){
+            let response = await fetch(`http://localhost:3000/api/v1/buffets/${buffet_id}/buffet_types`);
+            let data = await response.json();
+            
+            this.buffet_types = [];
+
+            data.forEach(item => {
+                var buffet_type = new Object();
+
+                buffet_type.id = item.id;
+                buffet_type.name = item.name;
+                buffet_type.description = item.description;
+                buffet_type.max_capacity_people = item.max_capacity_people;
+                buffet_type.min_capacity_people = item.min_capacity_people;
+                buffet_type.duration = item.duration;
+                buffet_type.alcoholic_beverages = item.alcoholic_beverages;
+                buffet_type.decoration = item.decoration;
+                buffet_type.parking_valet = item.parking_valet;
+                buffet_type.exclusive_address = item.exclusive_address;
+
+                this.buffet_types.push(buffet_type);
+            });
+        },
+
+        async getBuffet(buffet_id){
+            let response = await fetch(`http://localhost:3000/api/v1/buffets/${buffet_id}`);
             let data = await response.json();
             
             this.buffet.id =  data.id;
@@ -61,7 +118,26 @@ const app = Vue.createApp({
             this.buffet.postal_code =  data.postal_code;
             this.buffet.description =  data.description;
             this.buffet.payment_methods =  data.payment_methods;
+            this.buffet.visible = false;
+            //await this.getBuffetTypes(this.buffet.id);
         },
+
+        async getBuffetType(buffet_type_id){
+
+            let data = this.buffet_types.find(item => item.id === buffet_type_id);
+
+            this.buffet_type.id =  data.id;
+            this.buffet_type.name =  data.name;
+            this.buffet_type.description =  data.description;
+            this.buffet_type.max_capacity_people =  data.max_capacity_people;
+            this.buffet_type.min_capacity_people =  data.min_capacity_people;
+            this.buffet_type.duration =  data.duration;
+            this.buffet_type.alcoholic_beverages =  data.alcoholic_beverages;
+            this.buffet_type.decoration =  data.decoration;
+            this.buffet_type.parking_valet =  data.parking_valet;
+            this.buffet_type.exclusive_address =  data.exclusive_address;
+            this.buffet_type.visible = false;
+        }
     }
   })
   
