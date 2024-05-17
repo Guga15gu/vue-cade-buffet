@@ -35,8 +35,22 @@ const app = Vue.createApp({
       };
     },
 
+    computed:{
+        filtered_buffets(){
+            if(this.searchText){
+                this.closeBuffet();
+                return this.buffets.filter(buffet => {
+                    return buffet.business_name.toLowerCase().includes(this.searchText.toLowerCase());
+                });
+            }
+            else{
+                return this.buffets;
+            }
+        }
+    },
+
     async mounted(){
-        await this.getBuffets();
+        this.filtered_buffets =  await this.getBuffets();
     },
 
     methods:{

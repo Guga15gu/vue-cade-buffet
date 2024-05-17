@@ -9,13 +9,15 @@
     <div id="app">
         <h1>Cadê Buffet?</h1>
 
-        <div class="msg" v-if="buffets.length <= 0">
+        <input class="input" type="text" v-model="searchText" placeholder="Entre com um nome de buffet">
+
+        <div class="msg" v-if="filtered_buffets.length <= 0">
             Nenhum Buffet encontrado!
         </div>
 
         <div class="list">
             <ul>
-                <li v-for="buffet in buffets">
+                <li v-for="buffet in filtered_buffets">
                     <div class="card">
                         <address>
                             Nome: {{ buffet.business_name }}
