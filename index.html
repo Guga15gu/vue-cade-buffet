@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadê Buffet?</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="app">
@@ -99,8 +100,10 @@
                 <button class="available" v-on:click="getBuffetTypeAvailable()">Verificar disponibilidade</button>
 
                 <div v-if="buffet_type_available">
-                    <p>{{buffet_type_available_error}}</p>
                     <p>Evento Disponível por {{price}} reais</p>
+                </div>
+                <div v-else>
+                    <p>{{buffet_type_available_error}}</p>
                 </div>
             </div>
             
