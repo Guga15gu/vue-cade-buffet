@@ -84,6 +84,25 @@
             <div>
                 <button class="button-close" v-on:click="closeBuffetType()">Fechar detalhes do tipo de buffet</button>
             </div>
+
+            <div>
+                <form action="">
+                    <div class="input">
+                        Data desejada para o evento:
+                        <input type="date" v-model="buffet_type_available_date">
+                    </div>
+                    <div class="input">
+                        Quantidade de pessoas:
+                        <input type="number" v-model="buffet_type_available_number_of_guests">
+                    </div>
+                </form>
+                <button class="available" v-on:click="getBuffetTypeAvailable()">Verificar disponibilidade</button>
+
+                <div v-if="buffet_type_available">
+                    <p>{{buffet_type_available_error}}</p>
+                    <p>Evento Disponível por {{price}} reais</p>
+                </div>
+            </div>
             
             <p>Detalhes do tipo de buffet:</p>
             <address>

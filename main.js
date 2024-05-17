@@ -32,6 +32,12 @@ const app = Vue.createApp({
             exclusive_address: '',
             visible: false
         },
+
+        price: 0,
+        buffet_type_available_date: '',
+        buffet_type_available_number_of_guests: '',
+        buffet_type_available: false,
+        buffet_type_available_error: '',
       };
     },
 
@@ -54,6 +60,21 @@ const app = Vue.createApp({
     },
 
     methods:{
+        async getBuffetTypeAvailable(){
+            let response = await fetch(`http://localhost:3000/api/v1/buffets/${this.buffet.id}/buffet_types/${this.buffet_type.id}/available?date=${this.buffet_type_available_date}&number_of_guests=${this.buffet_type_available_number_of_guests}`);
+            
+            let data = await response.json();
+            
+            if (response.status == 412) {
+                this.buffet_type_available = false 
+                this.buffet_type_available_error = data.error;
+            }
+            else {
+                this.buffet_type_available = true
+                this.price = data.price;
+            }
+        },
+
         closeBuffet(){
             this.buffet.visible = false;
             this.closeBuffetTypes();
@@ -66,6 +87,8 @@ const app = Vue.createApp({
 
         closeBuffetType(){
             this.buffet_type.visible = false;
+            this.buffet_type_available = false;
+            this.buffet_type_available_error = '';
         },
 
         async showBuffet(buffet_id){
