@@ -92,6 +92,7 @@ const app = Vue.createApp({
         },
 
         async showBuffet(buffet_id){
+            this.closeBuffetTypes();
             await this.getBuffet(buffet_id);
             this.buffet.visible = true;
         },
