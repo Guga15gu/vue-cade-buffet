@@ -6,6 +6,51 @@
     <title>Cadê Buffet?</title>
 </head>
 <body>
-    
+    <div id="app">
+        <h1>Cadê Buffet?</h1>
+
+        <div class="msg" v-if="buffets.length <= 0">
+            Nenhum Buffet encontrado!
+        </div>
+
+        <ul>
+            <li v-for="buffet in buffets">
+                <div class="card">
+                    <address>
+                        Nome: {{ buffet.business_name }}
+                        <br>
+                        ID : {{ buffet.id }}
+                    </address>
+                    <button class="button-show-buffet" v-on:click="showBuffet(buffet.id)">Mostrar detalhes</button>
+                </div>
+            </li>   
+        </ul>
+
+        <div class="buffet" v-if="visibleBuffet">
+            <p>Detalhes do buffet id {{ buffet.id }}:</p>
+            <address>
+                Nome: {{ buffet.business_name }}
+                <br>
+                ID : {{ buffet.id }}
+                <br>
+                Telefone : {{ buffet.contact_phone }}
+                <br>
+                Endereço : {{ buffet.address }}
+                <br>
+                Bairro : {{ buffet.district }}
+                <br>
+                Estado : {{ buffet.state }}
+                <br>
+                Cidade : {{ buffet.city }}
+                <br>
+                CEP : {{ buffet.postal_code }}
+                <br>
+                Descrição : {{ buffet.description }}
+            </address>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
